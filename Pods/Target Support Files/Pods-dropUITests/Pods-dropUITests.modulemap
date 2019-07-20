@@ -1,6 +1,0 @@
-framework module Pods_dropUITests {
-  umbrella header "Pods-dropUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

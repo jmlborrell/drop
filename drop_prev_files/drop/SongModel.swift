@@ -8,6 +8,7 @@
 
 import Foundation
 import MediaPlayer
+import RxSwift
 
 enum SongLibraryError: Error {
     case empty

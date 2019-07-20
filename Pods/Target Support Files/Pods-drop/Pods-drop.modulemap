@@ -1,6 +1,0 @@
-framework module Pods_drop {
-  umbrella header "Pods-drop-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -2,7 +2,7 @@
 //  dropUITests.swift
 //  dropUITests
 //
-//  Created by Jose Borrell on 2019-05-05.
+//  Created by Jose Borrell on 2019-07-19.
 //  Copyright © 2019 Jose Borrell. All rights reserved.
 //
 
@@ -16,9 +16,6 @@ class dropUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
@@ -27,8 +24,18 @@ class dropUITests: XCTestCase {
     }
 
     func testExample() {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launch()
+
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
+    func testLaunchPerformance() {
+        // This measures how long it takes to launch your application from the home screen.
+        measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
+            XCUIApplication().launch()
+        }
+    }
 }
