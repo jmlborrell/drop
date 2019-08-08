@@ -14,12 +14,42 @@ enum SongLibraryError: Error {
     case load
 }
 
+
 class SongModel {
-    private let appleSongLibrary: Result<[MPMediaItem],SongLibraryError> = { () -> Result<[MPMediaItem],SongLibraryError> in
-        guard let songs = MPMediaQuery.songs().items else { return .failure(.load) }
-        if (songs == []) { return .failure(.load) }
-        return .success(songs)
-    }()
+    private var appleSongLibrary: Result<[MPMediaItem],SongLibraryError> = .failure(.load)
+    
+    func request() {
+        var songs : Result<[MPMediaItem],SongLibraryError> = .failure(.load)
+        
+        switch MPMediaLibrary.authorizationStatus() {
+        case .authorized:
+            guard let lib = MPMediaQuery.songs().items else { songs = .failure(.load); break }
+            if (lib == []) { songs = .failure(.load); break }
+            songs = .success(lib)
+            
+        case .notDetermined:
+            
+            MPMediaLibrary.requestAuthorization() { status in
+                if status == .authorized {
+                    DispatchQueue.main.async {
+                        guard let lib = MPMediaQuery.songs().items else { songs = .failure(.load); return }
+                        if (lib == []) { songs = .failure(.load) }
+                        songs = .success(lib)
+                    }
+                }
+            }
+            
+        case .denied: // The user has previously denied access.
+            songs = .failure(.load)
+            
+        case .restricted: // The user can't grant access due to restrictions.
+            songs = .failure(.load)
+        @unknown default:
+            songs = .failure(.load)
+        }
+        
+        appleSongLibrary = songs
+    }
     
     func retrieveAppleLibrary() throws -> [MPMediaItem] {
         switch appleSongLibrary {

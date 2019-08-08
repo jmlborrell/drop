@@ -30,7 +30,7 @@ protocol DropMedia {
     func play()
 }
 
-struct Song : Hashable {
+struct Song : Hashable, Identifiable {
     let id = UUID()
     let title: String
     let artist: String
@@ -47,9 +47,11 @@ class SongViewModel {
     
     private let model = SongModel()
     private var songStreamMap : Dictionary<UUID,MPMediaItem> = Dictionary<UUID,MPMediaItem>()
-    private var library: [Song]
+    var library: [Song]
     
     init() {
+        
+        model.request()
         
         let lib: [MPMediaItem]
         var streamMap : Dictionary<UUID,MPMediaItem> = Dictionary<UUID,MPMediaItem>()
@@ -67,7 +69,7 @@ class SongViewModel {
     }
     
     func songAtIndex(index i: Int) -> Song {
-        return library[i]
+        return library[i];
     }
     
     func requestLibraryLength() -> Int {

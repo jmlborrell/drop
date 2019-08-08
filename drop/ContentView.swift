@@ -32,7 +32,7 @@ enum LibraryCategories {
 
 extension View {
     func headerButtonStyle() -> some View {
-        Modified(content: self, modifier: HeaderButtonStyle())
+        ModifiedContent(content: self, modifier: HeaderButtonStyle())
     }
 }
 
@@ -83,7 +83,10 @@ struct ContentView: View {
                 .position(x: 185, y: 40)
                 
                 SongContentView()
+                    .position(x: 185, y: 75)
             }
+            
+            Spacer()
         }
     }
 }

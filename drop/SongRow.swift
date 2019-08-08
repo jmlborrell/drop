@@ -14,7 +14,7 @@ struct SongRow: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            Image(systemName: "photo")
+            Image(uiImage: song.artwork!).resizable().frame(width: 50, height: 50, alignment: .leading)
             VStack(alignment: .leading) {
                 Text(self.song.title)
                     .fontWeight(.bold)
@@ -30,11 +30,14 @@ struct SongContentView: View {
     let viewModel = SongViewModel()
     
     var body: some View {
-        List {
-            ForEach(0...5, id: \.id) { index in
-                SongRow(song: self.viewModel.songAtIndex(index: index))
+        
+        return List (viewModel.library) { song in
+            Button(action: {}) {
+            SongRow(song: song)
             }
         }
+    .position(x: 195, y: 0)
+        
     }
 }
 
